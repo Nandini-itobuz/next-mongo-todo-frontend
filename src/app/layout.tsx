@@ -1,6 +1,10 @@
+import "@mantine/core/styles.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { MantineProvider } from "@mantine/core";
+import { ToastContainer } from "react-toastify";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +31,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ToastContainer />
+        <MantineProvider>
+          <Suspense fallback={<div>loading....</div>}>{children}</Suspense>
+        </MantineProvider>
       </body>
     </html>
   );
