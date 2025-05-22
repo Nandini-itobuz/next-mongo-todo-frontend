@@ -1,20 +1,10 @@
 import "@mantine/core/styles.css";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { MantineProvider } from "@mantine/core";
 import { ToastContainer } from "react-toastify";
 import { Suspense } from "react";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { TodoProvider } from "config/TodoContext";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,12 +18,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body>
         <ToastContainer />
         <MantineProvider>
-          <Suspense fallback={<div>loading....</div>}>{children}</Suspense>
+          <TodoProvider>
+            <Suspense fallback={<div>loading....</div>}>{children}</Suspense>
+          </TodoProvider>
         </MantineProvider>
       </body>
     </html>

@@ -1,8 +1,6 @@
-// axiosInstance.ts
-
 import axios from "axios";
+import { getFromAppStorage } from "./store";
 
-console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
   headers: {
@@ -12,10 +10,10 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   async (config) => {
-    // const token = await getStore("authToken");
-    // if (token) {
-    //   config.headers["Authorization"] = `Bearer ${token}`;
-    // }
+    const token = await getFromAppStorage("token");
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => Promise.reject(error)

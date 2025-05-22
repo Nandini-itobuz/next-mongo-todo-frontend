@@ -3,9 +3,10 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, PasswordInput, TextInput } from "@mantine/core";
 import axiosInstance from "config/axiosInstance";
+import { setStore } from "config/store";
 import { errorMessageToast, successMessageToast } from "config/toastConfig";
 import Link from "next/link";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import * as y from "yup";
@@ -34,6 +35,8 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginForm) => {
     try {
       const response = await axiosInstance.post("/login", data);
+      const token = response.data.data;
+      setStore({ token });
       response.data.success && router.push("/");
       response.data.success && successMessageToast(response.data.message);
     } catch (error: any) {
